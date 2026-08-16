@@ -1,0 +1,305 @@
+@import "tailwindcss";
+@import "@fontsource-variable/work-sans";
+@import "@fontsource-variable/jetbrains-mono";
+@import "katex/dist/katex.min.css";
+
+/* Polices du template Wix « Conseil en stratégie » : Avenir (corps) + Work Sans (titres) */
+@font-face {
+  font-family: "Avenir";
+  src: url("./assets/avenir-lt-w05_35-light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Avenir";
+  src: url("./assets/avenir-lt-w01_35-light1475496.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Avenir";
+  src: url("./assets/avenir-lt-w05_85-heavy.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Avenir";
+  src: url("./assets/avenir-lt-w01_85-heavy1475544.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Work Sans Variable", "Avenir", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Work Sans Variable", "Avenir", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
+  --font-avenir: "Avenir", "Work Sans Variable", ui-sans-serif, sans-serif;
+
+  /* Identité du template : violet vif + navy profond sur fond blanc */
+  --color-accent: #9e3ffd;
+  --color-accent-2: #7a22d8;
+  --color-accent-soft: rgba(158, 63, 253, 0.14);
+
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-2: #f8f0ff;
+  --color-border: rgba(22, 22, 63, 0.08);
+  --color-border-strong: rgba(22, 22, 63, 0.16);
+  --color-fg: #16163f;
+  --color-fg-muted: #4a4a6e;
+  --color-fg-faint: #8a8aa3;
+
+  --color-bg-light: #ffffff;
+  --color-surface-light: #ffffff;
+  --color-surface-2-light: #f8f0ff;
+  --color-border-light: rgba(22, 22, 63, 0.08);
+  --color-border-strong-light: rgba(22, 22, 63, 0.16);
+  --color-fg-light: #16163f;
+  --color-fg-muted-light: #4a4a6e;
+  --color-fg-faint-light: #8a8aa3;
+
+  /* Variante sombre (navy profond) */
+  --color-bg-dark: #10101f;
+  --color-surface-dark: rgba(255, 255, 255, 0.04);
+  --color-surface-2-dark: rgba(158, 63, 253, 0.14);
+  --color-border-dark: rgba(236, 236, 245, 0.1);
+  --color-border-strong-dark: rgba(236, 236, 245, 0.2);
+  --color-fg-dark: #ececf5;
+  --color-fg-muted-dark: #a5a5bc;
+  --color-fg-faint-dark: #6e6e88;
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+
+  --shadow-soft: 0 2px 8px rgba(22, 22, 63, 0.08);
+  --shadow-card: 0 8px 30px rgba(22, 22, 63, 0.12);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- base ---------- */
+:root {
+  color-scheme: light;
+  --app-bg: var(--color-bg);
+  --app-surface: var(--color-surface);
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html:not(.dark) {
+  color-scheme: light;
+}
+
+.dark {
+  --app-bg: var(--color-bg-dark);
+  --app-surface: var(--color-surface-dark);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  background: var(--app-bg);
+  color: var(--color-fg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* theme transition */
+body,
+.surface,
+.theme-fade {
+  transition: background-color 240ms var(--ease-out), color 240ms var(--ease-out),
+    border-color 240ms var(--ease-out);
+}
+
+/* theme-aware utilities (defined via @utility so Tailwind variants work: hover:, placeholder:, ...) */
+@utility bg-app {
+  background: var(--color-bg-light);
+  .dark & { background: var(--color-bg-dark); }
+}
+@utility fg-app {
+  color: var(--color-fg-light);
+  .dark & { color: var(--color-fg-dark); }
+}
+@utility fg-muted {
+  color: var(--color-fg-muted-light);
+  .dark & { color: var(--color-fg-muted-dark); }
+}
+@utility fg-faint {
+  color: var(--color-fg-faint-light);
+  .dark & { color: var(--color-fg-faint-dark); }
+}
+@utility surface {
+  background: var(--color-surface-light);
+  .dark & { background: var(--color-surface-dark); }
+}
+@utility surface-2 {
+  background: var(--color-surface-2-light);
+  .dark & { background: var(--color-surface-2-dark); }
+}
+@utility border-sub {
+  border-color: var(--color-border-light);
+  .dark & { border-color: var(--color-border-dark); }
+}
+@utility border-strong-sub {
+  border-color: var(--color-border-strong-light);
+  .dark & { border-color: var(--color-border-strong-dark); }
+}
+
+/* ---------- accent (violet du template) ---------- */
+.accent-gradient {
+  background: linear-gradient(135deg, #9e3ffd 0%, #7a22d8 100%);
+}
+.accent-gradient:hover {
+  background: linear-gradient(135deg, #a854ff 0%, #8630e8 100%);
+}
+.accent-solid {
+  background: #9e3ffd;
+}
+.accent-solid:hover {
+  background: #a854ff;
+}
+.accent-text {
+  background-image: linear-gradient(135deg, #b57bff 0%, #7a22d8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.on-accent {
+  color: #f8f0ff;
+}
+
+/* ---------- scrollbars ---------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(138, 138, 163, 0.4) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: rgba(138, 138, 163, 0.4); border-radius: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ---------- entrances ---------- */
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-pop-in {
+  animation: pop-in 200ms var(--ease-out) both;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fade-in 180ms var(--ease-out) both;
+}
+
+/* streaming caret */
+.stream-caret::after {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 1.1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: currentColor;
+  border-radius: 1px;
+  animation: caret-blink 1s steps(2, start) infinite;
+}
+@keyframes caret-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* thinking dots */
+.thinking-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: think 1.2s infinite ease-in-out;
+}
+.thinking-dot:nth-child(2) { animation-delay: 0.15s; }
+.thinking-dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes think {
+  0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+
+/* barre de progression des outils (effet d'exécution) */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+.animate-shimmer {
+  animation: shimmer 1.2s var(--ease-out) infinite;
+}
+
+/* button press */
+.pressable {
+  transition: transform 120ms var(--ease-out), background-color 160ms var(--ease-out),
+    border-color 160ms var(--ease-out), opacity 160ms var(--ease-out);
+}
+.pressable:active {
+  transform: scale(0.98);
+}
+
+/* focus ring */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(158, 63, 253, 0.4);
+  border-radius: 8px;
+}
+
+/* markdown base — corps en Avenir comme le template */
+.md {
+  font-family: var(--font-avenir);
+  font-weight: 300;
+}
+.md p { margin: 0.6em 0; }
+.md p:first-child { margin-top: 0; }
+.md p:last-child { margin-bottom: 0; }
+.md ul { list-style: disc; padding-left: 1.4em; margin: 0.6em 0; }
+.md ol { list-style: decimal; padding-left: 1.4em; margin: 0.6em 0; }
+.md li { margin: 0.3em 0; }
+.md strong { font-weight: 800; }
+.md hr { border: 0; border-top: 1px solid var(--color-border); margin: 1.2em 0; }
+.md img { border-radius: 0.75rem; max-width: 100%; display: block; margin: 0.8em 0; }
+.md h1, .md h2 { font-family: var(--font-serif); letter-spacing: -0.02em; font-weight: 700; }
+.md h3, .md h4 { font-weight: 600; }
+.md kbd {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  padding: 0.1em 0.45em;
+  border-radius: 0.35rem;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.2);
+}
+
+/* composer textarea */
+.composer-area {
+  resize: none;
+  field-sizing: content;
+  max-height: 220px;
+  font-family: var(--font-avenir);
+  font-weight: 300;
+}
+
+/* boutons façon template (Avenir) */
+.pressable {
+  font-family: var(--font-avenir);
+}
