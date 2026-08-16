@@ -459,7 +459,7 @@ export async function* mockAdapter(opts: AdapterOptions, messages: Message[], to
     yield { type: "reasoning_start" } as const;
     for (const line of lines) {
       yield { type: "reasoning_delta", text: line + "\n" } as const;
-      await sleep(180);
+      await sleep(450);
     }
     yield { type: "reasoning_end" } as const;
   };
@@ -487,6 +487,7 @@ export async function* mockAdapter(opts: AdapterOptions, messages: Message[], to
     ];
     for (const chunk of answer) {
       yield { type: "delta", text: chunk + "\n" };
+      await sleep(250);
     }
     yield { type: "done", usage: { prompt_tokens: 12, completion_tokens: 80 } };
     return;
@@ -515,7 +516,7 @@ export async function* mockAdapter(opts: AdapterOptions, messages: Message[], to
     toolName = "web_search"; toolArgs = { query: lastUser };
   }
 
-  await sleep(400);
+  await sleep(900);
   if (reasoning !== "off") {
     yield* emitReasoning(["Analyse de la question de l'utilisateur…", "Sélection de l'outil le plus adapté…", "Préparation de l'appel d'outil…"]);
   }
